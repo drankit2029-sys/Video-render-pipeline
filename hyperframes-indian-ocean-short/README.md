@@ -8,18 +8,31 @@
 - `preview.html` — Local `<hyperframes-player>` wrapper
 - `assets/world-map.jpg` — High-resolution equirectangular satellite physical map texture
 - `assets/moon.png` — Alpha-masked photorealistic full moon texture
-- `.github/workflows/render.yml` — Ready-to-run GitHub Actions workflow for rendering on an Ubuntu runner
+- `package.json` — Pins the HyperFrames CLI (`0.8.171`) and exposes `lint` / `check` / `render` / `snapshot` scripts
+- `../.github/workflows/render.yml` — GitHub Actions workflow that renders on an Ubuntu runner (must live at the **repo root**, not inside this project folder)
 
 ## Render via GitHub Actions Runner
 
-1. Push this directory to your GitHub repository.
-2. Open the **Actions** tab and run **Render HyperFrames Video** (or push to `main`).
-3. Download the rendered `indian-ocean-short.mp4` from the workflow run artifacts.
+```bash
+# from the repository root
+gh workflow run render.yml
+gh run watch
+gh run download --name indian-ocean-short-mp4
+```
+
+The workflow also runs on every push to `master` / `main`. It installs FFmpeg and the
+pinned Chrome build, runs `lint` + `check`, renders at delivery quality, verifies the
+output with `ffprobe`, and uploads two artifacts:
+
+- `indian-ocean-short-mp4` — the final `indian-ocean-short.mp4`
+- `indian-ocean-short-qc` — still frames across the timeline for visual review
 
 ## Render Locally
 
+Requires Node.js 22+, FFmpeg, and a Chromium-capable host.
+
 ```bash
-npx hyperframes lint
-npx hyperframes preview
-npx hyperframes render --fps 60 --quality high --output indian-ocean-short.mp4
+npm run lint
+npm run check
+npm run render
 ```

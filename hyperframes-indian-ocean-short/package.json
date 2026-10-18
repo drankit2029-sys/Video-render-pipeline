@@ -1,0 +1,12 @@
+{
+  "name": "hyperframes-indian-ocean-short",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Indian Ocean Is Larger Than You Think — HyperFrames 1:1 YouTube Short recreation (1080x1920, 28s, 60fps)",
+  "scripts": {
+    "lint": "npx --yes hyperframes@0.8.171 lint",
+    "check": "npx --yes hyperframes@0.8.171 check",
+    "snapshot": "npx --yes hyperframes@0.8.171 snapshot --frames 8",
+    "render": "npx --yes hyperframes@0.8.171 render --quality delivery --output indian-ocean-short.mp4"
+  }
+}

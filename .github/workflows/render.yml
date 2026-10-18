@@ -1,0 +1,80 @@
+name: Render HyperFrames Video
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ master, main ]
+
+concurrency:
+  group: render-hyperframes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  render:
+    name: Render indian-ocean-short
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: hyperframes-indian-ocean-short
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install FFmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends ffmpeg
+          ffmpeg -version | head -1
+          ffprobe -version | head -1
+
+      - name: Install pinned Chrome
+        run: npx --yes hyperframes@0.8.171 browser ensure
+
+      - name: Lint composition
+        run: npx --yes hyperframes@0.8.171 lint
+
+      - name: Check composition
+        run: npx --yes hyperframes@0.8.171 check
+
+      - name: Render (1080x1920 @ 60fps, delivery quality)
+        run: |
+          npx --yes hyperframes@0.8.171 render \
+            --quality delivery \
+            --output indian-ocean-short.mp4
+
+      - name: Verify output with ffprobe
+        run: |
+          test -s indian-ocean-short.mp4
+          ffprobe -v error -show_format -show_streams -of default=noprint_wrappers=1 indian-ocean-short.mp4 \
+            | grep -E '^(width|height|duration|r_frame_rate|nb_frames|codec_name)='
+
+      - name: Capture QC snapshots
+        if: always()
+        run: |
+          npx --yes hyperframes@0.8.171 snapshot \
+            --at 0,1,2.5,4,6,8,10,12,13.5,15.5,17,18.5,20.5,22,24.5,26,27.9 \
+            --output qc-snapshots
+
+      - name: Upload rendered MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: indian-ocean-short-mp4
+          path: hyperframes-indian-ocean-short/indian-ocean-short.mp4
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload QC snapshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: indian-ocean-short-qc
+          path: hyperframes-indian-ocean-short/qc-snapshots
+          if-no-files-found: warn
+          retention-days: 14
