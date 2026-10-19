@@ -1,0 +1,11 @@
+# HyperFrames local build artifacts
+.hyperframes/
+renders/
+qc-snapshots/
+
+# Render output
+indian-ocean-short.mp4
+
+# deps / editor
+node_modules/
+.DS_Store
