@@ -87,6 +87,10 @@
 
     #map-card {
       position: relative;
+      /* content-box keeps the 1600x893 content (and the 1600x893 map-space SVG
+         overlay) exactly aligned, instead of overflowing the border and hiding
+         the right/bottom edges of the card frame. */
+      box-sizing: content-box;
       width: 1600px;
       height: 893px;
       flex-shrink: 0;
@@ -530,15 +534,15 @@
           <div id="s4-clip" class="clip" data-start="15" data-duration="5" data-track-index="1">
             <div id="s4-usa-layer">
               <!-- Row 1 (2 cutouts) -->
-              <svg id="usa-1" class="usa-item" style="left: 948px; top: 495px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
-              <svg id="usa-2" class="usa-item" style="left: 1095px; top: 498px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-1" class="usa-item" style="left: 908px; top: 495px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-2" class="usa-item" style="left: 1055px; top: 498px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
               <!-- Row 2 (2 cutouts) -->
-              <svg id="usa-3" class="usa-item" style="left: 950px; top: 588px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
-              <svg id="usa-4" class="usa-item" style="left: 1102px; top: 590px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-3" class="usa-item" style="left: 910px; top: 588px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-4" class="usa-item" style="left: 1062px; top: 590px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
               <!-- Row 3 (3 cutouts across southern Indian Ocean) -->
-              <svg id="usa-5" class="usa-item" style="left: 878px; top: 682px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
-              <svg id="usa-6" class="usa-item" style="left: 1026px; top: 685px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
-              <svg id="usa-7" class="usa-item" style="left: 1174px; top: 685px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-5" class="usa-item" style="left: 838px; top: 682px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-6" class="usa-item" style="left: 986px; top: 685px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
+              <svg id="usa-7" class="usa-item" style="left: 1109px; top: 685px;" viewBox="0 0 320 215"><use href="#us-flag-cutout" /></svg>
             </div>
           </div>
 
